@@ -12,13 +12,11 @@ using namespace std;
 
 
 void s() {
-	cout << "1" << endl;
 	//srand(time(NULL));
 	for (int i = 0; i < POP_SIZE; i++)
 	{
 		inicjalizacja(pop[i], CHROM_SIZE);
 	}
-	cout << "2" << endl;
 	const double szansa_mutacji = 0.01; // prawdopodobieñstwo mutacji osobnika
 	const double szansa_krzyzowania = 0.5; // prawdopodobieñstwo krzy¿owania pary
 
@@ -45,7 +43,6 @@ void s() {
 		// kopiowanie zawartoœci tablicy pomocniczej do podstawowej
 
 	};
-	cout << "3" << endl;
-	cout << "Wynik - populacja koñcowa:" << endl;
+	cout << "Wynik - populacja koncowa:" << endl;
 	for (int i = 0; i < POP_SIZE; i++) druk(pop[i], CHROM_SIZE);
 }
