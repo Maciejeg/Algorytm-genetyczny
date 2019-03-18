@@ -39,7 +39,7 @@ double funkcjaDopasowania(int t[], int n)
 	double s = 0;
 	for (int i = 0; i < n; i++) s += t[i];
 	s /= n;
-	return s; // dana funkcja 
+	return s * s; // dana funkcja 
 }
 
 void kopiowanie(int zrodlo[], int cel[], int n)

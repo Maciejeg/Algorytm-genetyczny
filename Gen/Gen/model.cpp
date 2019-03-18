@@ -43,6 +43,6 @@ void s() {
 		// kopiowanie zawartoœci tablicy pomocniczej do podstawowej
 
 	};
-	cout << "Wynik - populacja koncowa:" << endl;
+	cout << "Wynik - populacja koñcowa:" << endl;
 	for (int i = 0; i < POP_SIZE; i++) druk(pop[i], CHROM_SIZE);
 }

@@ -2,5 +2,5 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-void s();
+void s();//SGA
 #endif 
