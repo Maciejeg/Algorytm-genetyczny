@@ -4,56 +4,53 @@
 #include <time.h> 
 #include <math.h>
 #include <iomanip>
-#define POP_SIZE   2000
-#define CHROM_SIZE 30
-int pop[POP_SIZE][CHROM_SIZE];
-int temp[POP_SIZE][CHROM_SIZE];
-
-
+#include <string>
+#include "exprtk.h"
+#include <string>
 using namespace std;
 
+void standard1(string function, double xmin, double xmax, int pop_size, int chrom_size, int num_of_generations, double chance_of_mutation, double chance_of_crossover)
+{
 
-void standard(int p, int q, double rozdzielczosc) {
-	int tabmax[CHROM_SIZE];
-	for (int i = 0; i < CHROM_SIZE; i++) tabmax[i] = 1;
-	srand(time(NULL));
-	for (int i = 0; i < POP_SIZE; i++)
-	{
-		inicjalizacja(pop[i], CHROM_SIZE);
-	}
-	const double szansa_mutacji = 0.1; // prawdopodobieñstwo mutacji osobnika
-	const double szansa_krzyzowania = 0.5; // prawdopodobieñstwo krzy¿owania pary
+	int **pop = new int*[pop_size];
+	for (int i = 0; i < pop_size; ++i)
+		pop[i] = new int[chrom_size];
+	int **temp = new int*[pop_size];
+	for (int i = 0; i < pop_size; ++i)
+		temp[i] = new int[chrom_size];
+	init(pop, pop_size, chrom_size);
 
-	for (int t = 0; t < 100; t++) // ograniczenie pêtli - liczba pokoleñ
+	for (int t = 0; t < 3; t++) // ograniczenie pêtli - liczba pokoleñ
 	{
-		for (int i = 0; i < POP_SIZE; i++) // operatory genetyczne
+		for (int i = 0; i < pop_size; i++) // operatory genetyczne
 		{
-			if (prawdopodobienstwo(szansa_mutacji)) mutacja_poprzez_zamiane(pop[i], CHROM_SIZE);
-			if (prawdopodobienstwo(szansa_krzyzowania))
+			if (probability(chance_of_mutation)) mutation(pop[i], chrom_size);
+			if (probability(chance_of_crossover))
 			{
-				int second = losujCalkowite(0, POP_SIZE - 1);//losowy wybór partnera
-				krzyzowanieJednopunktowe(pop[i], pop[second], CHROM_SIZE);
+				int second = losujCalkowite(0, pop_size - 1);//losowy wybór partnera
+				crossover(pop[i], pop[second], chrom_size);
 			};
 		};
+		cout << "X" << endl;
+		double *f = new double[pop_size];
+		int *selected = new int[pop_size];
+		//double f[pop_size]; // wartoœci funkcji przystosowania osobników
+		//int selected[pop_size]; // numery osobników wybranych "ko³em ruletki"
+		for (int i = 0; i < pop_size; i++) f[i] = fitness(pop[i], chrom_size, xmin, xmax, pow(2,chrom_size)-1,function);
+		roulette(f, selected, pop_size);
+		for (int i = 0; i < pop_size; i++) copy(temp[i], pop[selected[i]], chrom_size);
+		// copy wybranych osobników do tablicy pomocniczej
+		for (int i = 0; i < pop_size; i++) copy(pop[i], temp[i], chrom_size);
 
-		double f[POP_SIZE]; // wartoœci funkcji przystosowania osobników
-		int selected[POP_SIZE]; // numery osobników wybranych "ko³em ruletki"
-		for (int i = 0; i < POP_SIZE; i++) f[i] = funkcjaDopasowania(pop[i], CHROM_SIZE,p,q,rozdzielczosc);
-		ruletka(f, selected, POP_SIZE);
-		for (int i = 0; i < POP_SIZE; i++) kopiowanie(temp[i], pop[selected[i]], CHROM_SIZE);
-		// kopiowanie wybranych osobników do tablicy pomocniczej
-		for (int i = 0; i < POP_SIZE; i++) kopiowanie(pop[i], temp[i], CHROM_SIZE);
-
-		// kopiowanie zawartoœci tablicy pomocniczej do podstawowej
+		// copy zawartoœci tablicy pomocniczej do podstawowej
 
 	};
 	cout << "Wynik - populacja koñcowa:" << endl;
 	int k = 0;
-	double max = funkcjaDopasowania(pop[0], CHROM_SIZE, p, q, rozdzielczosc);
-	for (int i = 0; i < POP_SIZE; i++) { //druk(pop[i], CHROM_SIZE, p, q, rozdzielczosc); 
-	if (funkcjaDopasowania(pop[i], CHROM_SIZE, p, q, rozdzielczosc) > max) { k = i; max = funkcjaDopasowania(pop[i], CHROM_SIZE, p, q, rozdzielczosc); }
+	double max = fitness(pop[0], chrom_size, xmin, xmax, pow(2,chrom_size)-1,function);
+	for (int i = 0; i < pop_size; i++) { //druk(pop[i], chrom_size, p, q, rozdzielczosc); 
+		if (fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function) > max) { k = i; max = fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function); }
 
 	}
-	cout << k << " " << setprecision(20)<<decymalizacja(pop[k], CHROM_SIZE)<<"= " << setprecision(15)<<max << endl;;
-	
-}
+	cout << k << " " << setprecision(20) << binToDec(pop[k], chrom_size) << "= " << setprecision(15) << max << endl;;
+};
