@@ -31,21 +31,23 @@ void standard1(string function, double xmin, double xmax, int pop_size, int chro
 				crossover(pop[i], pop[second], chrom_size);
 			};
 		};
-		cout << "X" << endl;
+
 		double *f = new double[pop_size];
 		int *selected = new int[pop_size];
 		//double f[pop_size]; // wartoœci funkcji przystosowania osobników
 		//int selected[pop_size]; // numery osobników wybranych "ko³em ruletki"
 		for (int i = 0; i < pop_size; i++) f[i] = fitness(pop[i], chrom_size, xmin, xmax, pow(2,chrom_size)-1,function);
+
 		roulette(f, selected, pop_size);
+
 		for (int i = 0; i < pop_size; i++) copy(temp[i], pop[selected[i]], chrom_size);
 		// copy wybranych osobników do tablicy pomocniczej
+
 		for (int i = 0; i < pop_size; i++) copy(pop[i], temp[i], chrom_size);
 
 		// copy zawartoœci tablicy pomocniczej do podstawowej
 
 	};
-	cout << "Wynik - populacja koñcowa:" << endl;
 	int k = 0;
 	double max = fitness(pop[0], chrom_size, xmin, xmax, pow(2,chrom_size)-1,function);
 	for (int i = 0; i < pop_size; i++) { //druk(pop[i], chrom_size, p, q, rozdzielczosc); 

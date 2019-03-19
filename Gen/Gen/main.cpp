@@ -8,7 +8,7 @@ using namespace std;
 #include "genetyka.h"
 #include <math.h>
 #include "model.h"
-
+#include "exprtk.h"
 int main()
 {
 	/*int pop_size = 10;
@@ -42,7 +42,9 @@ int main()
 //cout << binToDec(tab, 10) << endl;
 	//cout << setprecision(10)<<fitness(tab, 10, 0, 1, 1023) << endl;;//tab,d³,p,q,rozdzielczosc
 	delete tab;*/
-	standard1("-x^2+10*sin(x)", 0, 5, 200, 10, 100, 0.02, 0.5);
+	standard1("-x^2+10*sin(x)", 0, 5, 2000, 10, 100, 0.02, 0.5);//funkcja,a,b,pop_size,chrom_size, mutprob, crossprob
+
+
 	cin.ignore();
 	cin.ignore();
 	cin.ignore();

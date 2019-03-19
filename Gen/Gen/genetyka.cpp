@@ -43,14 +43,14 @@ void crossover(int t1[], int t2[], int n)
 
 double fitness(int t[], int n, double p, double q, double rozdzielczosc, std::string function)
 {
+	/*
 	typedef exprtk::symbol_table<double> symbol_table_t;
 	typedef exprtk::expression<double>     expression_t;
 	typedef exprtk::parser<double>             parser_t;
 
-	std::string expression_str = function;
-	double s = 0;
-	s=binToDec(t, n);
-	double x = p + s*(q - p) / rozdzielczosc;
+	//std::string expression_str = function;
+
+	
 	// Register x with the symbol_table
 	symbol_table_t symbol_table;
 	symbol_table.add_variable("x", x);
@@ -65,7 +65,11 @@ double fitness(int t[], int n, double p, double q, double rozdzielczosc, std::st
 
 	double result = 0.0;
 	result = expression.value();
-	return result;
+	*/
+	double s = 0;
+	s = binToDec(t, n);
+	double x = p + s * (q - p) / rozdzielczosc;
+	return -x*x+10*sin(x*x);
 }
 
 void copy(int zrodlo[], int cel[], int n)
