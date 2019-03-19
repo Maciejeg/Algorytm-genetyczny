@@ -1,7 +1,10 @@
 #include <stdlib.h>
 #include <iostream>
 #include "genetyka.h"
-#define PI 3.14159265359
+#include <math.h>
+#include <iostream>
+#include <iomanip>
+#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 
 
 
@@ -34,12 +37,12 @@ void krzyzowanieJednopunktowe(int t1[], int t2[], int n)
 	};
 }
 
-double funkcjaDopasowania(int t[], int n)
+double funkcjaDopasowania(int t[], int n, double p, double q, double rozdzielczosc)
 {
 	double s = 0;
-	for (int i = 0; i < n; i++) s += t[i];
-	s /= n;
-	return s; // dana funkcja 
+	s=decymalizacja(t, n);
+	double x = p + s*(q - p) / rozdzielczosc;
+	return -x*x+22;
 }
 
 void kopiowanie(int zrodlo[], int cel[], int n)
@@ -48,15 +51,27 @@ void kopiowanie(int zrodlo[], int cel[], int n)
 }
 
 int prawdopodobienstwo(double a)
-{
+{	
 	return a < rand() / (double)(RAND_MAX + 1);
 }
 
-void druk(int t[], int n) // funkcja pomocnicza: wypisz geny osobnika
+void druk(int t[], int n,int p, int q, double rozdzielczosc) // funkcja pomocnicza: wypisz geny osobnika
 {
 	for (int i = 0; i < n; i++) std::cout << t[i] << "";
-	std::cout << " = " << funkcjaDopasowania(t, n) << std::endl; //...i wartoœæ jego funkcji celu
-};
+		std::cout << " = " << std::setprecision(5)<<funkcjaDopasowania(t, n, p,q,rozdzielczosc) << std::endl;  //...i wartoœæ jego funkcji celu
+}
+int decymalizacja(int tab[], int n)
+{
+	int suma=0;
+	int a = 0;
+	for (int i = n-1; i>=0; i--)
+	{
+		suma += tab[i] * pow(2, a);
+		a++;
+	}
+	return suma;
+}
+;
 
 void ruletka(double dopasowanie[], int wynik[], int n, int m)
 {
