@@ -54,5 +54,8 @@ void standard1(string function, double xmin, double xmax, int pop_size, int chro
 		if (fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function) > max) { k = i; max = fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function); }
 
 	}
-	cout << k << " " << setprecision(20) << binToDec(pop[k], chrom_size) << "= " << setprecision(15) << max << endl;;
+	double s = 0;
+	s = binToDec(pop[k], chrom_size);
+	double x = xmin + s * (xmax - xmin) / (pow(2,chrom_size)-1);
+	cout << k << " " << setprecision(20) << x << "= " << setprecision(15) << max << endl;;
 };
