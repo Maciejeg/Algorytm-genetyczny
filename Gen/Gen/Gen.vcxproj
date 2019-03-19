@@ -76,6 +76,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,6 +122,7 @@
     <ClCompile Include="model.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="exprtk.h" />
     <ClInclude Include="genetyka.h" />
     <ClInclude Include="model.h" />
   </ItemGroup>

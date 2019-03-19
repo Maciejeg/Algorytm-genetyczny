@@ -4,6 +4,9 @@
 #include <math.h>
 #include <iostream>
 #include <iomanip>
+#include <string>
+#include <cstdio>
+#include "exprtk.h"
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 
 
@@ -16,17 +19,18 @@ void inicjalizacja(int t[], int n) // losowanie osobników, tablica odwzorowuje k
 {
 	for (int i = 0; i < n; i++)
 	{
+		std::cout << i << std::endl;
 		t[i] = losujCalkowite(0, 1);
 	}
 }
 
-void mutacja_poprzez_zamiane(int t[], int n) // tablica + wielkoœæ tablicy
+void mutation(int t[], int n) // tablica + wielkoœæ tablicy
 {
 	int pozycja = losujCalkowite(0, n - 1);
 	t[pozycja] = 1 - t[pozycja]; // mutacja: 0 na 1 lub 1 na 0
 }
 
-void krzyzowanieJednopunktowe(int t1[], int t2[], int n)
+void crossover(int t1[], int t2[], int n)
 {
 	int pozycja = losujCalkowite(1, n - 1); //losowanie miejsca przeciêcia
 	for (int i = pozycja; i < n; i++)
@@ -37,20 +41,39 @@ void krzyzowanieJednopunktowe(int t1[], int t2[], int n)
 	};
 }
 
-double funkcjaDopasowania(int t[], int n, double p, double q, double rozdzielczosc)
+double fitness(int t[], int n, double p, double q, double rozdzielczosc, std::string function)
 {
+	typedef exprtk::symbol_table<double> symbol_table_t;
+	typedef exprtk::expression<double>     expression_t;
+	typedef exprtk::parser<double>             parser_t;
+
+	std::string expression_str = function;
 	double s = 0;
-	s=decymalizacja(t, n);
+	s=binToDec(t, n);
 	double x = p + s*(q - p) / rozdzielczosc;
-	return -x*x+22;
+	// Register x with the symbol_table
+	symbol_table_t symbol_table;
+	symbol_table.add_variable("x", x);
+
+	// Instantiate expression and register symbol_table
+	expression_t expression;
+	expression.register_symbol_table(symbol_table);
+
+	// Instantiate parser and compile the expression
+	parser_t parser;
+	parser.compile(expression_str, expression);
+
+	double result = 0.0;
+	result = expression.value();
+	return result;
 }
 
-void kopiowanie(int zrodlo[], int cel[], int n)
+void copy(int zrodlo[], int cel[], int n)
 {
 	for (int i = 0; i < n; i++) cel[i] = zrodlo[i];
 }
 
-int prawdopodobienstwo(double a)
+int probability(double a)
 {	
 	return a < rand() / (double)(RAND_MAX + 1);
 }
@@ -58,9 +81,9 @@ int prawdopodobienstwo(double a)
 void druk(int t[], int n,int p, int q, double rozdzielczosc) // funkcja pomocnicza: wypisz geny osobnika
 {
 	for (int i = 0; i < n; i++) std::cout << t[i] << "";
-		std::cout << " = " << std::setprecision(5)<<funkcjaDopasowania(t, n, p,q,rozdzielczosc) << std::endl;  //...i wartoœæ jego funkcji celu
+		std::cout << " = " << std::setprecision(5)<<fitness(t, n, p,q,rozdzielczosc) << std::endl;  //...i wartoœæ jego funkcji celu
 }
-int decymalizacja(int tab[], int n)
+int binToDec(int tab[], int n)
 {
 	int suma=0;
 	int a = 0;
@@ -71,9 +94,26 @@ int decymalizacja(int tab[], int n)
 	}
 	return suma;
 }
-;
+void init(int ** tab, int pop_size, int chrom_size)
+{
+	for (int i = 0; i < pop_size; i++)
+	{
+		for (int j = 0; j < chrom_size; j++)
+		{
+			tab[i][j] = rand() % 2;
+		}
+	}
+}
+void init(int pop_size, int chrom_size)
+{
+	int** a = new int*[pop_size];
+	for (int i = 0; i < pop_size; ++i)
+		a[i] = new int[chrom_size];
 
-void ruletka(double dopasowanie[], int wynik[], int n, int m)
+}
+
+
+void roulette(double dopasowanie[], int wynik[], int n, int m)
 {
 	double *suma = new double[n];
 	if (m == -1) m = n;
