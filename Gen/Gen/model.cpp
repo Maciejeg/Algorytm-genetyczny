@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <time.h> 
 #include <math.h>
-#define POP_SIZE   20
+#include <iomanip>
+#define POP_SIZE   2000
 #define CHROM_SIZE 10
 int pop[POP_SIZE][CHROM_SIZE];
 int temp[POP_SIZE][CHROM_SIZE];
@@ -11,8 +12,10 @@ int temp[POP_SIZE][CHROM_SIZE];
 using namespace std;
 
 
-void s() {
-	//srand(time(NULL));
+void standard(int p, int q, double rozdzielczosc) {
+	int tabmax[CHROM_SIZE];
+	for (int i = 0; i < CHROM_SIZE; i++) tabmax[i] = 1;
+	srand(time(NULL));
 	for (int i = 0; i < POP_SIZE; i++)
 	{
 		inicjalizacja(pop[i], CHROM_SIZE);
@@ -34,7 +37,7 @@ void s() {
 
 		double f[POP_SIZE]; // wartoœci funkcji przystosowania osobników
 		int selected[POP_SIZE]; // numery osobników wybranych "ko³em ruletki"
-		for (int i = 0; i < POP_SIZE; i++) f[i] = funkcjaDopasowania(pop[i], CHROM_SIZE);
+		for (int i = 0; i < POP_SIZE; i++) f[i] = funkcjaDopasowania(pop[i], CHROM_SIZE,p,q,rozdzielczosc);
 		ruletka(f, selected, POP_SIZE);
 		for (int i = 0; i < POP_SIZE; i++) kopiowanie(temp[i], pop[selected[i]], CHROM_SIZE);
 		// kopiowanie wybranych osobników do tablicy pomocniczej
@@ -44,5 +47,12 @@ void s() {
 
 	};
 	cout << "Wynik - populacja koñcowa:" << endl;
-	for (int i = 0; i < POP_SIZE; i++) druk(pop[i], CHROM_SIZE);
+	int k = 0;
+	double max = funkcjaDopasowania(pop[0], CHROM_SIZE, p, q, rozdzielczosc);
+	for (int i = 0; i < POP_SIZE; i++) { //druk(pop[i], CHROM_SIZE, p, q, rozdzielczosc); 
+	if (funkcjaDopasowania(pop[i], CHROM_SIZE, p, q, rozdzielczosc) > max) { k = i; max = funkcjaDopasowania(pop[i], CHROM_SIZE, p, q, rozdzielczosc); }
+
+	}
+	cout << k << " " << setprecision(10)<<max << endl;;
+	
 }
