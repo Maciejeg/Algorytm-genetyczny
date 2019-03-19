@@ -5,9 +5,10 @@
 #include <math.h>
 #include <iomanip>
 #define POP_SIZE   2000
-#define CHROM_SIZE 10
+#define CHROM_SIZE 30
 int pop[POP_SIZE][CHROM_SIZE];
 int temp[POP_SIZE][CHROM_SIZE];
+
 
 using namespace std;
 
@@ -20,7 +21,7 @@ void standard(int p, int q, double rozdzielczosc) {
 	{
 		inicjalizacja(pop[i], CHROM_SIZE);
 	}
-	const double szansa_mutacji = 0.01; // prawdopodobieñstwo mutacji osobnika
+	const double szansa_mutacji = 0.1; // prawdopodobieñstwo mutacji osobnika
 	const double szansa_krzyzowania = 0.5; // prawdopodobieñstwo krzy¿owania pary
 
 	for (int t = 0; t < 100; t++) // ograniczenie pêtli - liczba pokoleñ
@@ -53,6 +54,6 @@ void standard(int p, int q, double rozdzielczosc) {
 	if (funkcjaDopasowania(pop[i], CHROM_SIZE, p, q, rozdzielczosc) > max) { k = i; max = funkcjaDopasowania(pop[i], CHROM_SIZE, p, q, rozdzielczosc); }
 
 	}
-	cout << k << " " << setprecision(10)<<max << endl;;
+	cout << k << " " << setprecision(20)<<decymalizacja(pop[k], CHROM_SIZE)<<"= " << setprecision(15)<<max << endl;;
 	
 }

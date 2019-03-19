@@ -42,7 +42,7 @@ double funkcjaDopasowania(int t[], int n, double p, double q, double rozdzielczo
 	double s = 0;
 	s=decymalizacja(t, n);
 	double x = p + s*(q - p) / rozdzielczosc;
-	return -x * x + 10 * sin(x*x);
+	return -x*x+22;
 }
 
 void kopiowanie(int zrodlo[], int cel[], int n)

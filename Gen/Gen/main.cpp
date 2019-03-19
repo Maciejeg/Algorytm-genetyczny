@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
 
-	standard(0,1,1024);
+	standard(-6,10,1073741824);
 	//int tab[10] = { 1,1,1,1,1,1,1,1,1,1 };
 //cout << decymalizacja(tab, 10) << endl;
 	//cout << setprecision(10)<<funkcjaDopasowania(tab, 10, 0, 1, 1023) << endl;;//tab,d³,p,q,rozdzielczosc
