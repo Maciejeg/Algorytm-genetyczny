@@ -42,7 +42,7 @@ int main()
 //cout << binToDec(tab, 10) << endl;
 	//cout << setprecision(10)<<fitness(tab, 10, 0, 1, 1023) << endl;;//tab,d³,p,q,rozdzielczosc
 	delete tab;*/
-	standard1("-x^2+10*sin(x)", 0, 5, 2000, 10, 100, 0.02, 0.5);//funkcja,a,b,pop_size,chrom_size, mutprob, crossprob
+	standard1("-x^2+10*sin(x)", 0, 5, 10, 10, 10, 0.02, 0.5);//funkcja,a,b,pop_size,chrom_size, mutprob, crossprob
 
 
 	cin.ignore();

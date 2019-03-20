@@ -19,9 +19,43 @@ void standard1(string function, double xmin, double xmax, int pop_size, int chro
 	for (int i = 0; i < pop_size; ++i)
 		temp[i] = new int[chrom_size];
 	init(pop, pop_size, chrom_size);
+	for (int t = 0; t < num_of_generations; t++) {
+		for (int i = 0; i < pop_size; i++) // operatory genetyczne
+		{
+			if (probability(chance_of_mutation)) mutation(pop[i], chrom_size);
+			if (probability(chance_of_crossover))
+			{
+				int second = losujCalkowite(0, pop_size - 1);//losowy wybór partnera
+				crossover(pop[i], pop[second], chrom_size);
+			};
+		};
+		turniej(pop, temp, pop_size, 1, 1, chrom_size);
+		int k = 0;
+		double max = fitness(pop[0], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function);
+		for (int i = 0; i < pop_size; i++) { //druk(pop[i], chrom_size, p, q, rozdzielczosc); 
+			if (fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function) > max)
+			{
+				k = i; max = fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function);
+			}
+			double s = 0;
+			s = binToDec(pop[k], chrom_size);
+			double x = xmin + s * (xmax - xmin) / (pow(2, chrom_size) - 1);
+			cout << k << " " << setprecision(20) << x << "= " << setprecision(15) << max << endl;;
+		}
+	}
 
-	for (int t = 0; t < 3; t++) // ograniczenie pêtli - liczba pokoleñ
+
+/*	for (int t = 0; t < num_of_generations; t++) // ograniczenie pêtli - liczba pokoleñ
 	{
+		for (int i = 0; i < pop_size; i++)
+		{
+			for (int j = 0; j < chrom_size; j++)
+			{
+				std::cout << pop[i][j];
+			}
+			std::cout << endl;
+		}
+		std::cout << "----------------" << endl;
 		for (int i = 0; i < pop_size; i++) // operatory genetyczne
 		{
 			if (probability(chance_of_mutation)) mutation(pop[i], chrom_size);
@@ -46,16 +80,24 @@ void standard1(string function, double xmin, double xmax, int pop_size, int chro
 		for (int i = 0; i < pop_size; i++) copy(pop[i], temp[i], chrom_size);
 
 		// copy zawartoœci tablicy pomocniczej do podstawowej
+		delete[] f;
+		delete[] selected;
 
 	};
 	int k = 0;
 	double max = fitness(pop[0], chrom_size, xmin, xmax, pow(2,chrom_size)-1,function);
 	for (int i = 0; i < pop_size; i++) { //druk(pop[i], chrom_size, p, q, rozdzielczosc); 
 		if (fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function) > max) { k = i; max = fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function); }
-
+		/*for (int i = 0; i < chrom_size; i++)
+		{
+			delete[] pop[i];
+			delete[] temp[i];
+		}
+		delete[] pop;
+		delete[] temp;
 	}
 	double s = 0;
 	s = binToDec(pop[k], chrom_size);
 	double x = xmin + s * (xmax - xmin) / (pow(2,chrom_size)-1);
-	cout << k << " " << setprecision(20) << x << "= " << setprecision(15) << max << endl;;
+	cout << k << " " << setprecision(20) << x << "= " << setprecision(15) << max << endl;;*/
 };
