@@ -29,21 +29,22 @@ void standard1(string function, double xmin, double xmax, int pop_size, int chro
 				crossover(pop[i], pop[second], chrom_size);
 			};
 		};
-		turniej(pop, temp, pop_size, 1, 1, chrom_size);
-		int k = 0;
-		double max = fitness(pop[0], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function);
-		for (int i = 0; i < pop_size; i++) { //druk(pop[i], chrom_size, p, q, rozdzielczosc); 
-			if (fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function) > max)
-			{
-				k = i; max = fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function);
-			}
-			double s = 0;
-			s = binToDec(pop[k], chrom_size);
-			double x = xmin + s * (xmax - xmin) / (pow(2, chrom_size) - 1);
-			cout << k << " " << setprecision(20) << x << "= " << setprecision(15) << max << endl;;
+		turniej(pop, temp, pop_size, 1, 5, chrom_size);
+		
+	}
+	int k = 0;
+	double max = fitness(pop[0], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function);
+	for (int i = 0; i < pop_size; i++) { //druk(pop[i], chrom_size, p, q, rozdzielczosc); 
+		if (fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function) > max)
+		{
+			k = i; max = fitness(pop[i], chrom_size, xmin, xmax, pow(2, chrom_size) - 1, function);
 		}
 	}
-
+		double s = 0;
+		s = binToDec(pop[k], chrom_size);
+		double x = xmin + s * (xmax - xmin) / (pow(2, chrom_size) - 1);
+		cout << k << " " << setprecision(20) << x << "= " << setprecision(15) << max << endl;;
+	
 
 /*	for (int t = 0; t < num_of_generations; t++) // ograniczenie pêtli - liczba pokoleñ
 	{

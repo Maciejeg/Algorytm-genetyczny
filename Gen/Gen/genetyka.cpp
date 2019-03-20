@@ -47,7 +47,7 @@ double fitness(int *t, int n, double p, double q, double rozdzielczosc, std::str
 	double s = 0;
 	s = binToDec(t, n);
 	double x = p + s * (q - p) / rozdzielczosc;
-	return x;
+	return x * x + sin(x*x*x) - tan(x);
 }
 
 void copy(int *zrodlo, int *cel, int n)
@@ -127,30 +127,39 @@ void turniej(int **input, int **wynik, int pop_size, int m, int q, int chrom_siz
 				//std::cout << fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) << std::endl;
 
 			}
-			std::cout << "fitness= " << fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) << std::endl;
+			//std::cout << "fitness= " << fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) << std::endl;
 			if (fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) > max)
 			{
-				std::cout << "i: :" << i << std::endl;
-				std::cout << max << std::endl;
+				//std::cout << "i: :" << i << std::endl;
+				//std::cout << max << std::endl;
 				max = fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1);
-				std::cout << max << std::endl;
+				//std::cout << max << std::endl;
 				x = i;
 			}
 		}
-	for (int i = 0; i < q; i++)
+	//for (int i = 0; i < q; i++)
 	{
-		for (int j = 0; j < chrom_size; j++)
+	//	for (int j = 0; j < chrom_size; j++)
 		{
-			std::cout << tab[i][j];
+		//	std::cout << tab[i][j];
 		}
-		std::cout << std::endl;
+		//std::cout << std::endl;
 	}
-	std::cout << "x: " << x << std::endl;
+	//std::cout << "x: " << x << std::endl;
 
 	for (int i = 0; i < chrom_size; i++)
 	{
 		wynik[x][i] = tab[x][i];
 	}
+
+
+	for (int i = 0; i < q; i++)
+	{
+		delete[] tab[i];
+		//delete[] temp[i];
+	}
+	delete[] tab;
+	delete[] b;
 	}
 
 
