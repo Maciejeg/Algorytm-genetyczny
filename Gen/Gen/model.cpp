@@ -89,7 +89,7 @@ void standard1(string function, double xmin, double xmax, int pop_size, int chro
 		}
 		std::cout << "----------------" << endl;
 		for (int i = 0; i < pop_size; i++) // operatory genetyczne
-		{
+		{3
 			if (probability(chance_of_mutation)) mutation(pop[i], chrom_size);
 			if (probability(chance_of_crossover))
 			{
