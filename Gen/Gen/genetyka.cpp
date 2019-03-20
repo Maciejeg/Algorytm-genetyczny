@@ -6,9 +6,9 @@
 #include <iomanip>
 #include <string>
 #include <cstdio>
-#include "exprtk.h"
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
-
+#include <bitset>
+#define PI 3.1415926535897
+using namespace std;
 
 
 int losujCalkowite(int a, int b)
@@ -65,6 +65,7 @@ void druk(int *t, int n,int p, int q, double rozdzielczosc) // funkcja pomocnicz
 	for (int i = 0; i < n; i++) std::cout << t[i] << "";
 		std::cout << " = " << std::setprecision(5)<<fitness(t, n, p,q,rozdzielczosc) << std::endl;  //...i wartoœæ jego funkcji celu
 }
+
 int binToDec(int *tab, int n)
 {
 	int suma=0;
@@ -74,8 +75,23 @@ int binToDec(int *tab, int n)
 		suma += tab[i] * pow(2, a);
 		a++;
 	}
-	return suma;
+	return suma;//suma;
 }
+/*int binToDec(int *tab, int n)
+{
+	int suma = 0;
+	int a = 0;
+	std::string str;
+	for (int i = 0; i < 30; i++) {
+		str += std::to_string(tab[i]);
+		cout << i << endl;
+	}
+	cout << str << endl;
+	unsigned long long value;
+		value = std::bitset<64>(str).to_ullong();
+
+	return value;
+}*/
 void init(int ** tab, int pop_size, int chrom_size)
 {
 	for (int i = 0; i < pop_size; i++)
@@ -103,65 +119,60 @@ void init(int pop_size, int chrom_size)
 		}
 		return fd;
 	}
-void turniej(int **input, int **wynik, int pop_size, int m, int q, int chrom_size)
+void turniej(int **input, int **wynik, int pop_size, int m, int q, int chrom_size, double xmin, double xmax)
 {
 	srand(time(NULL));
-	for (int k = 0; k < pop_size; k++){
+	for (int k = 0; k < pop_size; k++) {
+
 		int** tab = new int*[q];
 		for (int i = 0; i < q; ++i)
 			tab[i] = new int[chrom_size];
-		double max = 0; int x = 0;
-		int a = 0;  int* b = new int[q];
-		for (int i = 0; i < q; i++)
-			b[i] = -1;
+
+		double max = 0; int x = 0; int a = 0;  int* b = new int[q]; for (int i = 0; i < q; i++) b[i] = -1;
 
 		for (int i = 0; i < q; i++)//losowanie bez zwracania
 		{
-			do {
+			do 
+			{
 				a = rand() % pop_size;
 			} while (f(b, a, q));
 			b[i] = a;
 			for (int j = 0; j < chrom_size; j++)
 			{
 				tab[i][j] = input[a][j];
-				//std::cout << fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) << std::endl;
-
 			}
-			//std::cout << "fitness= " << fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) << std::endl;
 			if (fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1) > max)
 			{
-				//std::cout << "i: :" << i << std::endl;
-				//std::cout << max << std::endl;
-				max = fitness(tab[i], pop_size, 0, 5, pow(2, chrom_size) - 1);
-				//std::cout << max << std::endl;
+				max = fitness(tab[i], pop_size, xmin, xmax, pow(2, chrom_size) - 1);
 				x = i;
 			}
 		}
-	//for (int i = 0; i < q; i++)
-	{
-	//	for (int j = 0; j < chrom_size; j++)
+
+		for (int i = 0; i < chrom_size; i++)
 		{
-		//	std::cout << tab[i][j];
+			//cout << tab[x][i] << endl;
+			wynik[k][i] = tab[x][i];
 		}
-		//std::cout << std::endl;
-	}
-	//std::cout << "x: " << x << std::endl;
 
-	for (int i = 0; i < chrom_size; i++)
-	{
-		wynik[x][i] = tab[x][i];
-	}
+		//cout << "--";
+		//cout << "Ktory: " << ktory << "    ";
+
+		for (int i = 0; i < chrom_size; i++) 
+		{
+			//cout << wynik[k][i];
+		}
+		//cout << endl;
 
 
-	for (int i = 0; i < q; i++)
-	{
-		delete[] tab[i];
-		//delete[] temp[i];
-	}
-	delete[] tab;
-	delete[] b;
-	}
+		for (int i = 0; i < q; i++)
+		{
+			delete[] tab[i];
+		}
+		delete[] tab;
+		delete[] b;
 
+	}
+	
 
 };
 void roulette(double *dopasowanie, int *wynik, int n, int m)
