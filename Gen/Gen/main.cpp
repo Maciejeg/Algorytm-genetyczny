@@ -1,59 +1,18 @@
-
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
-#include <time.h> 
-#include "genetyka.h"
-#include <iomanip>
-using namespace std;
-#include "genetyka.h"
-#include <math.h>
+#include <cstring>
+#include <cmath>
 #include "model.h"
-#include "exprtk.h"
+using namespace std;
 int main()
 {
-	/*int pop_size = 10;
-	int chrom_size = 20;
-	int **pop = new int*[pop_size];
-	for (int i = 0; i < pop_size; ++i)
-		pop[i] = new int[chrom_size];
+	standard(1000, 30, 0, 10, 100, 0.05, 0.65, 10, 0);
+	//int pop_size, int chrom_size, int xmin, int xmax,
+	//int num_of_generations, double chance_of_mutation,
+	//double chance_of_crossover, int q, int method
 
-	init(pop, pop_size, chrom_size);
-
-
-	for (int i = 0; i < pop_size; i++)
-	{
-		for (int j = 0; j < chrom_size; j++)
-		{
-			cout << setw(3) << pop[i][j];
-		}
-		cout << endl;
-	}
-
-	int x;
-	cin >> x;
-	int *tab = new int[x];
-	cout << " XD " << endl;
-	inicjalizacja(tab, 5);
-	for (int i = 0; i < 5; i++)
-		cout << tab[i];
-	cout << " XD " << endl;
-	//standard(-6,10,1073741824);
-	//int tab[10] = { 1,1,1,1,1,1,1,1,1,1 };
-//cout << binToDec(tab, 10) << endl;
-	//cout << setprecision(10)<<fitness(tab, 10, 0, 1, 1023) << endl;;//tab,d³,p,q,rozdzielczosc
-	delete tab;*/
-	standard1("-x^2+10*sin(x)", 2, 3, 1000, 30, 10, 0.02, 0.5);//funkcja,a,b,pop_size,chrom_size, mutprob, crossprob
-	//chrom_size max=30 if(chrom_size>30)int out of range
-
-	cin.ignore();
-	cin.ignore();
-	cin.ignore();
-	cin.ignore();
-	cin.ignore();
-	cin.ignore();
-
+	cout << "koniec" << endl;
 	cin.ignore();
 	return 0;
-
 }
-

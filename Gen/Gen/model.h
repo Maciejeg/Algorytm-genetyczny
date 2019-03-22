@@ -1,8 +1,8 @@
 #pragma once
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef model_H
+#define model_H
 
-void standard1(string function, double xmin, double xmax, int pop_size, int chrom_size, int num_of_generations, double chance_of_mutation, double chance_of_crossover);
+void standard(int pop_size, int chrom_size, int xmin, int xmax, int num_of_generations, double chance_of_mutation, double chance_of_crossover, int q, int method);
 
-void standard(int p, int q, double rozdzielczosc);//SGA
-#endif 
+#endif // !model_H
+
