@@ -122,7 +122,6 @@
     <ClCompile Include="model.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="exprtk.h" />
     <ClInclude Include="genetyka.h" />
     <ClInclude Include="model.h" />
   </ItemGroup>
