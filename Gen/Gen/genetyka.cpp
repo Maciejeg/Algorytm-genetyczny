@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <bitset>
-
+#include <thread>
 using namespace std;
 
 /*CO POTRZEBUJÊ?:
@@ -17,6 +17,7 @@ using namespace std;
 -kopiowanie z tablicy do tablicy
 -algorytm turniej
 */
+
 
 void init(int **tab, int pop_size, int chrom_size)
 {
@@ -36,7 +37,7 @@ double fitness(int * tab, int chrom_size, int xmin, int xmax, int method)
 	double s = 0;
 	s = binToDec(tab, chrom_size, method);
 	double x = xmin + s * (xmax - xmin) / resolution;
-	return  pow(x, log(x)*sin(x));
+	return   pow(x,sin(x));
 }
 void copying(int **input, int **output, int pop_size, int chrom_size)
 {
@@ -76,7 +77,7 @@ double binToDec(int *tab, int chrom_size, int method)
 {
 	if (method == 0)
 	{
-		int suma = 0;
+		double suma = 0;
 		int a = 0;
 		for (int i = chrom_size - 1; i >= 0; i--)
 		{
@@ -96,13 +97,11 @@ double binToDec(int *tab, int chrom_size, int method)
 		return value;
 	}
 }
-
-void tournament(int ** input, int ** output, int xmin, int xmax, int pop_size, int chrom_size, int q, int method, int *winner)
+void multiThread(int ** input, int ** output, double xmin, double xmax, int pop_size, int chrom_size, int q, int method, int *winner, int start)
 {
 	srand(time(NULL));
 
-
-	for (int k = 0; k < pop_size; k++)
+	for (int k = start; k < pop_size; k++)
 	{
 		int *value = new int[q];
 		for (int i = 0; i < q; i++)
@@ -157,6 +156,69 @@ void tournament(int ** input, int ** output, int xmin, int xmax, int pop_size, i
 		}
 		delete[] tab;
 	}
+}
+void tournament(int ** input, int ** output, double xmin, double xmax, int pop_size, int chrom_size, int q, int method, int *winner)
+{
+	srand(time(NULL));
+	thread first(multiThread, input, output, xmin, xmax, pop_size/2, chrom_size, q, method, winner,0);
+	thread second(multiThread, input, output, xmin, xmax, pop_size, chrom_size, q, method, winner, pop_size/2);
+	/*for (int k = 0; k < pop_size; k++)
+	{
+		int *value = new int[q];
+		for (int i = 0; i < q; i++)
+		{
+			bool check; //variable to check or number is already used
+			int n; //variable to store the number in
+			do
+			{
+				n = rand() % pop_size;
+				//check or number is already used:
+				check = true;
+				for (int j = 0; j < i; j++)
+					if (n == value[j]) //if number is already used
+					{
+						check = false; //set check to false
+						break; //no need to check the other elements of value[]
+					}
+			} while (!check); //loop until new, unique number is found
+			value[i] = n; //store the generated number in the array
+		}
+		int **tab = new int*[q];
+		for (int i = 0; i < q; i++)
+		{
+			tab[i] = new int[chrom_size];
+		}
+		for (int i = 0; i < q; i++)
+		{
+			for (int j = 0; j < chrom_size; j++)
+			{
+				tab[i][j] = input[value[i]][j];
+			}
+		}
+		double max = fitness(tab[0], chrom_size, xmin, xmax, method);
+		int iteration = 0;
+		for (int i = 0; i < q; i++)
+		{
+			if (fitness(tab[i], chrom_size, xmin, xmax, method) >= max)
+			{
+				max = fitness(tab[i], chrom_size, xmin, xmax, method);
+				iteration = i;
+			}
+		}
+		for (int i = 0; i < chrom_size; i++)
+		{
+			output[k][i] = tab[iteration][i];
+		}
+
+		delete[] value;
+		for (int i = 0; i < q; i++)
+		{
+			delete[] tab[i];
+		}
+		delete[] tab;
+	}*/
+	first.join();
+	second.join();
 	for (int i = 0; i < chrom_size; i++)
 	{
 		winner[i] = output[pop_size - 1][i];
