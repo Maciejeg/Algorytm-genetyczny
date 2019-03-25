@@ -16,7 +16,6 @@ using namespace std;
 int main()
 {
 	menu();
-	//cout <<std::thread::hardware_concurrency() << endl;
 
 	return 0;
 }

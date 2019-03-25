@@ -5,16 +5,21 @@
 using namespace std;
 void menu()
 {
-	//HANDLE Kolor;
-	//Kolor = GetStdHandle(STD_OUTPUT_HANDLE);
+	HANDLE Kolor;
+	Kolor = GetStdHandle(STD_OUTPUT_HANDLE);
 	//SetConsoleTextAttribute(Kolor, 3);
 	cout << "Czy chcesz zdefiniowac wlasne warunki? t/n" << endl;
 	char g = _getch();
+	int i = 0;
 	while (g != 't' && g != 'T' && g != 'n' && g != 'N')
 	{
+		i++;
+		SetConsoleTextAttribute(Kolor, i%100);
 		cout << "xD" << endl;
+
 		g = _getch();
 	}
+	SetConsoleTextAttribute(Kolor, 7);
 	/*int pop_size				*/
 	/*int chrom_size(max 1023)	*/
 	/*double xmin				*/
@@ -178,6 +183,11 @@ void menu()
 			cout << "Metoda{0,1}: " << i << endl;
 			cout << "min/max: ";
 			cin >> k;
+			if (k == "papaj2137")
+			{
+				c = 0;
+				d = 2137;
+			}
 		}
 		system("cls");
 		cout << "Wielkosc populacji(>=10): " << a << endl;
