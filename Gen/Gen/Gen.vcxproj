@@ -133,13 +133,14 @@
     <ClInclude Include="gui.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="resource2.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Downloads\images.png" />
-    <Image Include="..\..\..\..\..\Downloads\images_0nv_icon.ico" />
+    <ResourceCompile Include="Gen.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
+    <Image Include="..\images_0nv_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
