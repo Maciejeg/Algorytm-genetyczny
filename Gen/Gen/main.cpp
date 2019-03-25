@@ -4,15 +4,19 @@
 #include <cstring>
 #include <cmath>
 #include "model.h"
+#include <ctime>
+#include <iomanip>
+#include <chrono>
+#include <thread>
+#include <math.h>
+#include <limits>
+#include "gui.h"
 using namespace std;
+#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
 int main()
 {
-	standard(1000, 30, 0, 10, 100, 0.05, 0.65, 10, 0);
-	//int pop_size, int chrom_size, int xmin, int xmax,
-	//int num_of_generations, double chance_of_mutation,
-	//double chance_of_crossover, int q, int method
+	menu();
+	//cout <<std::thread::hardware_concurrency() << endl;
 
-	cout << "koniec" << endl;
-	cin.ignore();
 	return 0;
 }

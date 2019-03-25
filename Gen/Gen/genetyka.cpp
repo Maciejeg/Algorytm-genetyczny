@@ -5,9 +5,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <bitset>
+#include <thread>
+#include <cstdlib>	
 
 using namespace std;
-
+struct range {
+	int x;
+	int y;
+};
 /*CO POTRZEBUJÊ?:
 -inicjalizacja: dostaje pust¹ tablicê pop_size X chrom_size
 -mutacja: dostaje jeden chromosom
@@ -18,40 +23,31 @@ using namespace std;
 -algorytm turniej
 */
 
+
 void init(int **tab, int pop_size, int chrom_size)
 {
 	for (int i = 0; i < pop_size; i++)
 		for (int j = 0; j < chrom_size; j++)
 			tab[i][j] = rand() % 2;
 }
-
 int probability(double a)
 {
 	return a < rand() / (double)(RAND_MAX + 1);
 }
 
-double fitness(int * tab, int chrom_size, int xmin, int xmax, int method)
+
+double fitness(int * tab, int chrom_size, int xmin, int xmax, int method, double xx)
 {
 	double resolution = pow(2, chrom_size) - 1;
 	double s = 0;
 	s = binToDec(tab, chrom_size, method);
 	double x = xmin + s * (xmax - xmin) / resolution;
-	return  pow(x, log(x)*sin(x));
+	return   x;
 }
-void copying(int **input, int **output, int pop_size, int chrom_size)
+
+void multiThreadMutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance_of_mutation, double chance_of_crossover, range t) 
 {
-	for (int i = 0; i < pop_size; i++)
-	{
-		for (int j = 0; j < chrom_size; j++)
-		{
-			output[i][j] = input[i][j];
-		}
-	}
-}
-void mutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance_of_mutation, double chance_of_crossover)
-{
-	srand(time(NULL));
-	for (int i = 0; i < pop_size; i++)
+	for (int i = t.x; i < t.y; i++)
 	{
 		if (probability(chance_of_mutation))
 		{
@@ -70,13 +66,42 @@ void mutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance
 			}
 		}
 	}
+};
+void copying(int **input, int **output, int pop_size, int chrom_size)
+{
+	for (int i = 0; i < pop_size; i++)
+	{
+		for (int j = 0; j < chrom_size; j++)
+		{
+			output[i][j] = input[i][j];
+		}
+	}
 }
+void mutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance_of_mutation, double chance_of_crossover)
+{
+	srand(time(NULL));
+	range t1 = { 0 * pop_size,pop_size / 6 };
+	range t2 = { 1 * pop_size / 6, 2 * pop_size / 6 };
+	range t3 = { 2 * pop_size / 6, 3 * pop_size / 6 };
+	range t4 = { 3 * pop_size / 6, 4 * pop_size / 6 };
+	range t5 = { 4 * pop_size / 6, 5 * pop_size / 6 };
+	range t6 = { 5 * pop_size / 6, 6 * pop_size / 6 };
+	range all = { 0,pop_size };
+	
+	multiThreadMutationAndCrossover(tab,pop_size,chrom_size,chance_of_mutation,chance_of_crossover,	t1);
+	multiThreadMutationAndCrossover(tab,pop_size,chrom_size,chance_of_mutation,chance_of_crossover,	t2);
+	multiThreadMutationAndCrossover(tab,pop_size,chrom_size,chance_of_mutation,chance_of_crossover,	t3);
+	multiThreadMutationAndCrossover(tab,pop_size,chrom_size,chance_of_mutation,chance_of_crossover,	t4);
+	multiThreadMutationAndCrossover(tab,pop_size,chrom_size,chance_of_mutation,chance_of_crossover,	t5);
+	multiThreadMutationAndCrossover(tab,pop_size,chrom_size,chance_of_mutation,chance_of_crossover,	t6);
 
+	
+}
 double binToDec(int *tab, int chrom_size, int method)
 {
 	if (method == 0)
 	{
-		int suma = 0;
+		double suma = 0;
 		int a = 0;
 		for (int i = chrom_size - 1; i >= 0; i--)
 		{
@@ -97,12 +122,13 @@ double binToDec(int *tab, int chrom_size, int method)
 	}
 }
 
-void tournament(int ** input, int ** output, int xmin, int xmax, int pop_size, int chrom_size, int q, int method, int *winner)
+
+
+void multiThread(int ** input, int ** output, double xmin, double xmax, int pop_size, int chrom_size, int q, int method, int *winner, range start, string minmax="max")
 {
 	srand(time(NULL));
-
-
-	for (int k = 0; k < pop_size; k++)
+		
+	for (int k = start.x; k < start.y; k++)
 	{
 		int *value = new int[q];
 		for (int i = 0; i < q; i++)
@@ -139,11 +165,20 @@ void tournament(int ** input, int ** output, int xmin, int xmax, int pop_size, i
 		int iteration = 0;
 		for (int i = 0; i < q; i++)
 		{
-			if (fitness(tab[i], chrom_size, xmin, xmax, method) >= max)
+			if(minmax=="min")
+			if (fitness(tab[i], chrom_size, xmin, xmax, method) <= max)
 			{
+				//cout << dec_values[value[i]] << endl;
 				max = fitness(tab[i], chrom_size, xmin, xmax, method);
 				iteration = i;
 			}
+			if(minmax=="max")
+				if (fitness(tab[i], chrom_size, xmin, xmax, method) >= max)
+				{
+					//cout << dec_values[value[i]] << endl;
+					max = fitness(tab[i], chrom_size, xmin, xmax, method);
+					iteration = i;
+				}
 		}
 		for (int i = 0; i < chrom_size; i++)
 		{
@@ -157,6 +192,32 @@ void tournament(int ** input, int ** output, int xmin, int xmax, int pop_size, i
 		}
 		delete[] tab;
 	}
+}
+void tournament(int ** input, int ** output, double xmin, double xmax, int pop_size, int chrom_size, int q, int method, int *winner, string minmax)
+{
+
+	range t1 = { 0 * pop_size,pop_size / 6 };
+	range t2 = { 1 * pop_size / 6, 2 * pop_size / 6 };
+	range t3 = { 2 * pop_size / 6, 3 * pop_size / 6 };
+	range t4 = { 3 * pop_size / 6, 4 * pop_size / 6 };
+	range t5 = { 4 * pop_size / 6, 5 * pop_size / 6 };
+	range t6 = { 5 * pop_size / 6, 6 * pop_size / 6 };
+	range all = { 0,pop_size };
+
+	srand(time(NULL));
+	thread first(multiThread, input, output, xmin, xmax, pop_size , chrom_size, q, method, winner, t1,minmax );
+	thread second(multiThread, input, output, xmin, xmax, pop_size, chrom_size, q, method, winner,t2 ,minmax  );
+	thread third(multiThread, input, output, xmin, xmax, pop_size, chrom_size, q, method, winner,t3  ,minmax );
+	thread fourth(multiThread, input, output, xmin, xmax, pop_size, chrom_size, q, method, winner, t4,minmax );
+	thread fifth(multiThread, input, output, xmin, xmax, pop_size, chrom_size, q, method, winner, t5 ,minmax );
+	thread sixth(multiThread, input, output, xmin, xmax, pop_size, chrom_size, q, method, winner, t6 ,minmax );
+	first.join();
+	second.join();
+	third.join();
+	fourth.join();
+	fifth.join();
+	sixth.join();
+
 	for (int i = 0; i < chrom_size; i++)
 	{
 		winner[i] = output[pop_size - 1][i];
