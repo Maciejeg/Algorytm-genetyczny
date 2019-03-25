@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Plik do³¹czany wygenerowany przez œrodowisko Microsoft Visual C++.
-// U¿ywany przez: Resource.rc
+// U¿ywany przez: Gen.rc
 //
 #define IDI_ICON1                       101
 
