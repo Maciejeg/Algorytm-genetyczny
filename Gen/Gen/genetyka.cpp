@@ -7,23 +7,12 @@
 #include <bitset>
 #include <thread>
 #include <cstdlib>	
-
+#include <fstream>
 using namespace std;
 struct range {
 	int x;
 	int y;
 };
-/*CO POTRZEBUJÊ?:
--inicjalizacja: dostaje pust¹ tablicê pop_size X chrom_size
--mutacja: dostaje jeden chromosom
--krzy¿owanie: dostaje dwa chromosomy i miejsce przeciêcia
--base 2 na base 10
--funkcja dopasowania
--kopiowanie z tablicy do tablicy
--algorytm turniej
-*/
-
-
 void init(int **tab, int pop_size, int chrom_size)
 {
 	for (int i = 0; i < pop_size; i++)
@@ -34,16 +23,14 @@ int probability(double a)
 {
 	return a < rand() / (double)(RAND_MAX + 1);
 }
-
 double fitness(int * tab, int chrom_size, int xmin, int xmax, int method, double xx)
 {
 	double resolution = pow(2, chrom_size) - 1;
 	double s = 0;
 	s = binToDec(tab, chrom_size, method);
 	double x = xmin + s * (xmax - xmin) / resolution;
-	return   pow(x,sin(x))-pow(x,cos(x))-3*x;
+	return   tan(x);
 }
-
 void multiThreadMutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance_of_mutation, double chance_of_crossover, range t) 
 {
 	for (int i = t.x; i < t.y; i++)
@@ -120,9 +107,9 @@ double binToDec(int *tab, int chrom_size, int method)
 		return value;
 	}
 }
-
 void multiThread(int ** input, int ** output, double xmin, double xmax, int pop_size, int chrom_size, int q, int method, int *winner, range start, string minmax="max")
 {
+
 	srand(time(NULL));
 		
 	for (int k = start.x; k < start.y; k++)

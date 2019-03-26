@@ -215,16 +215,16 @@ void menu()
 	else
 	{
 		standard(
-			/*int pop_size				*/	10,
-			/*int chrom_size(max 1023)	*/	10,
-			/*double xmin				*/	-7,
-			/*double xmax				*/	7,
+			/*int pop_size				*/	1000,
+			/*int chrom_size(max 1023)	*/	100,
+			/*double xmin				*/	100,
+			/*double xmax				*/	120,
 			/*int num_of_generations	*/	100,
 			/*double chance_of_mutation */	0.15,
-			/*double chance_of_crossover*/	0.55,
+			/*double chance_of_crossover*/	0.66,
 			/*int q (amount of chromo)  */	10,
 			/*int method				*/	0,
-			/*string min/max			*/ "min");
+			/*string min/max			*/ "max");
 
 	}
 	cin.ignore();
