@@ -29,7 +29,7 @@ double fitness(int * tab, int chrom_size, int xmin, int xmax, int method, double
 	double s = 0;
 	s = binToDec(tab, chrom_size, method);
 	double x = xmin + s * (xmax - xmin) / resolution;
-	return   tan(x);
+	return   pow(sin(x),17)-sin(x)+log(sin(x))+x*x;
 }
 void multiThreadMutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance_of_mutation, double chance_of_crossover, range t) 
 {

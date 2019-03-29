@@ -125,12 +125,14 @@
   <ItemGroup>
     <ClCompile Include="genetyka.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="list.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="genetyka.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="list.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
