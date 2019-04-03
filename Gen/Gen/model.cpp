@@ -8,7 +8,7 @@
 #include "list.h"
 using namespace std;
 
-int bestOfTable(int**tab, int pop_size, int chrom_size, int xmin, int xmax, int method)
+int bestOfTable(int**tab, int pop_size, int chrom_size, double xmin, double xmax, int method)
 {
 	double max;
 	int iteracja = 0;

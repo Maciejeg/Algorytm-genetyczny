@@ -23,13 +23,13 @@ int probability(double a)
 {
 	return a < rand() / (double)(RAND_MAX + 1);
 }
-double fitness(int * tab, int chrom_size, int xmin, int xmax, int method, double xx)
+double fitness(int * tab, int chrom_size, double xmin, double xmax, int method, double xx)
 {
 	double resolution = pow(2, chrom_size) - 1;
 	double s = 0;
 	s = binToDec(tab, chrom_size, method);
 	double x = xmin + s * (xmax - xmin) / resolution;
-	return   pow(sin(x),17)-sin(x)+log(sin(x))+x*x;
+	return   x;
 }
 void multiThreadMutationAndCrossover(int **tab, int pop_size, int chrom_size, double chance_of_mutation, double chance_of_crossover, range t) 
 {
